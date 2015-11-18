@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+</head>
+<body>
+	<div class="container">
+		<h3 class="text-center">Realtime Message Board</h3>
+			<div class="jumbotron">
+				<h2 id="lblCurrentMessage" class="text-center"></h2>
+			</div>
+	</div>
+	<div class="form-group">
+		<input type="text" id="txtNewMessages" class="form-control">
+		<button id="btUpdateMessage" class="btn btn-primary">Update</button>
+	</div>
+<script type="text/javascript">
+	var lblCurrentMessage = document.getElementById('lblCurrentMessage'),
+		txtNewMessages = document.getElementById('lblNewMessage'),
+		btUpdateMessage = document.getElementById('btUpdateMessage'),
+		rootRef = new Firebase('https://kctestapp.firebaseio.com/'),
+		currentMessageRef = rootRef.child('currentMessage');
+
+		btUpdateMessage.addEventListener('click', function() {
+			currentMessageRef.set(txtNewMessages.value);
+			txtNewMessages.value = '';
+		});
+
+	currentMessageRef.on('value', fucntion(snapshot) {
+		lblCurrentMessage.innerText = snapshot.val();
+	});
+</script>
+</body>
+</html>
